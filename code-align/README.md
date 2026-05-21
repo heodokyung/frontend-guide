@@ -21,7 +21,7 @@
 | 구분 | 링크 |
 |---|---|
 | GitHub에서 코드 보기 | [index.html](./index.html) |
-| GitHub Pages에서 실행 | `https://heodokyung.github.io/frontend-guide/code-align/` |
+| GitHub Pages에서 실행 | `https://heodokyung.github.io/frontend-guide/code-align/` [바로가기](https://heodokyung.github.io/frontend-guide/code-align/) |
 
 GitHub README에서 `index.html`을 누르면 웹 도구가 실행되는 것이 아니라 소스 파일이 열립니다. 실제로 사용하려면 GitHub Pages 주소로 들어가야 합니다.
 
