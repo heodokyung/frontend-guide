@@ -56,11 +56,11 @@ HTML 구조, 접근성, 클래스 네이밍, BEM, CSS 작성 순서, 반응형, 
 
 - [TypeScript 가이드](./docs/typescript/README.md)
 
-### UI
+### Code-align
 
-버튼, 폼, 모달, 탭, 카드 같은 UI 패턴의 공통 구현 원칙을 정리하는 영역입니다.
+CSS, HTML, Js등을 컨벤션 규칙이 맞게 정렬합니다.
 
-- [UI 가이드](./docs/ui/README.md)
+- [코드 정렬 바로가기](./code-align/index.html)
 
 ---
 
@@ -99,7 +99,7 @@ frontend-guide/
 │  │  └─ README.md
 │  └─ typescript/
 │     └─ README.md
-├─ tools/
+├─ code-align/
 └─ LICENSE
 ```
 
@@ -132,9 +132,7 @@ frontend-guide/
 | 마크업/CSS 컨벤션 | `docs/markup/` |
 | 클린 코드 글 | `docs/clean-code/` |
 | TypeScript 학습 정리 | `docs/typescript/` |
-| UI 패턴 규칙 | `docs/ui/` |
-| CSS 정렬/변환 같은 작은 도구 | `tools/` |
-| 독립 배포가 필요한 앱 수준 도구 | 별도 레포 유지 |
+| CSS 정렬/변환 같은 작은 도구 | `code-align/` |
 
 문서형 자료는 하나의 저장소에서 관리하는 편이 찾기 쉽고, 포트폴리오 관점에서도 더 전문적으로 보입니다. 반대로 실제 배포가 필요한 웹앱이나 독립적인 도구는 별도 레포로 유지하는 편이 좋습니다.
 
@@ -161,18 +159,16 @@ https://github.com/heodokyung/frontend-guide
 
 ---
 
-## 참고 기준
+## 참고한 주요 공개 자료
 
-이 저장소는 개인 경험만이 아니라, 일반적으로 널리 쓰이는 문서/컨벤션을 함께 참고합니다.
-
-- Google HTML/CSS Style Guide
-- MDN Web Docs
-- GitHub Markdown 문서
-- CommonMark
-- TypeScript Handbook
-- Conventional Commits
-
-세부 참고 자료와 기존 문서 통합 내역은 [NOTICE.md](./NOTICE.md)에 기록합니다.
+- Google HTML/CSS Style Guide: https://google.github.io/styleguide/htmlcssguide
+- MDN Web Docs - HTML accessibility: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility/HTML
+- MDN Web Docs - CSS media queries: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries
+- GitHub Docs - Writing on GitHub: https://docs.github.com/en/get-started/writing-on-github
+- CommonMark: https://commonmark.org/
+- TypeScript Handbook: https://www.typescriptlang.org/docs/handbook/intro.html
+- Conventional Commits: https://www.conventionalcommits.org/ko/v1.0.0/
+- Code Guide by @mdo: https://codeguide.co/
 
 ---
 
