@@ -43,7 +43,6 @@ README, 문서 목차, 표, 코드블록, 체크리스트, GitHub 문서 작성 
 HTML 구조, 접근성, 클래스 네이밍, BEM, CSS 작성 순서, 반응형, 컴포넌트 스타일 규칙을 정리합니다.
 
 - [Markup / CSS 가이드](./docs/markup/README.md)
-- [CSS 문서 위치 안내](./docs/css/README.md)
 
 ### Clean Code
 
