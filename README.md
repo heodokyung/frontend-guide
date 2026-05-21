@@ -1,52 +1,83 @@
 # Frontend Guide
 
-> 프론트엔드 개발자가 실무에서 반복적으로 확인하는 Git, Markdown, 마크업, CSS, UI 구현 규칙을 한곳에 정리한 가이드 저장소입니다.
+> 프론트엔드 작업에서 반복해서 헷갈리는 **Git, Markdown, Markup/CSS, Clean Code, TypeScript, UI 구현 기준**을 한곳에 모은 실무형 가이드입니다.
 
-이 저장소는 단순한 명령어 모음이 아니라, **작업을 시작하기 전 어떤 상태인지 판단하고, 어떤 순서로 처리해야 하는지 바로 결정할 수 있게 만드는 실전형 문서 모음**을 목표로 합니다.
-
----
-
-## 이 저장소가 필요한 이유
-
-프론트엔드 작업은 코드만 잘 작성한다고 끝나지 않습니다.
-
-- Git으로 변경 이력을 안전하게 관리해야 하고
-- README와 Markdown 문서를 읽기 쉽게 정리해야 하며
-- HTML/마크업 구조와 CSS 작성 규칙을 일관되게 유지해야 하고
-- UI 컴포넌트와 화면 구현 기준을 팀이나 개인 프로젝트 안에서 계속 재사용할 수 있어야 합니다.
-
-`frontend-guide`는 이 흐름을 하나의 기준으로 정리하기 위한 저장소입니다.
+`frontend-guide`는 단순한 문서 모음이 아닙니다.  
+작업 중 문제가 생겼을 때 “지금 어떤 상태인지 → 무엇을 확인해야 하는지 → 어떤 순서로 해결해야 하는지”를 빠르게 판단하기 위한 기준 문서 저장소입니다.
 
 ---
 
-## 문서 바로가기
+## 이 저장소의 방향
 
-| 분류 | 문서 | 설명 |
-|---|---|---|
-| Git | [Git 가이드](./docs/git/README.md) | Git의 기본 개념, 일상 작업 흐름, 문제 해결을 한눈에 보는 시작 문서 |
-| Git | [입문 가이드](./docs/git/beginner.md) | Git을 처음 쓰는 사람이 꼭 알아야 할 개념과 첫 업로드 흐름 |
-| Git | [실무 워크플로우](./docs/git/workflow.md) | 브랜치, 커밋, Pull Request, merge/rebase, stash, squash 등 실무 흐름 |
-| Git | [문제 해결 가이드](./docs/git/troubleshooting.md) | push 거절, 충돌, remote 오류, 잘못된 커밋 등 자주 만나는 문제 해결 |
-| Markdown | `docs/markdown/` | README, 문서 구조, 제목/목차/표 작성 규칙 정리 예정 |
-| Markup | `docs/markup/` | HTML 구조, 접근성, 클래스 네이밍, 시맨틱 마크업 규칙 정리 예정 |
-| CSS | `docs/css/` | CSS 작성 순서, 속성 정렬, 반응형/상태 스타일 규칙 정리 예정 |
-| UI | `docs/ui/` | 버튼, 폼, 모달, 탭, 카드 등 UI 패턴 규칙 정리 예정 |
-| Tools | `tools/` | CSS 정렬/변환 같은 작은 실무 도구 관리 영역 |
+프론트엔드 개발은 화면을 만드는 일처럼 보이지만, 실제 작업은 훨씬 넓습니다.
+
+- Git으로 변경 이력을 안전하게 관리하고
+- README와 Markdown 문서를 읽기 좋게 정리하고
+- HTML은 의미 있게, CSS는 예측 가능하게 작성하고
+- JavaScript/TypeScript 코드는 오래 유지될 수 있게 다듬고
+- 버튼, 폼, 모달, 탭 같은 UI 패턴을 일관되게 구현해야 합니다.
+
+이 저장소는 그 기준을 흩어진 메모가 아니라 **다시 찾아보기 쉬운 실무 가이드**로 정리합니다.
 
 ---
 
-## 추천 학습 순서
+## 빠른 바로가기
 
-Git을 처음 접한다면 아래 순서로 읽는 것을 추천합니다.
+### Git
 
-```txt
-1. docs/git/beginner.md
-2. docs/git/README.md
-3. docs/git/workflow.md
-4. docs/git/troubleshooting.md
-```
+Git을 처음 연결하거나, Fork 앱에서 Push가 막히거나, 브랜치/커밋이 헷갈릴 때 봅니다.
 
-이미 Git을 쓰고 있다면 `docs/git/README.md`에서 상황별 명령어를 먼저 확인하고, 문제가 생겼을 때 `troubleshooting.md`를 보면 됩니다.
+- [Git 가이드 시작하기](./docs/git/README.md)
+- [Git 입문 가이드](./docs/git/beginner.md)
+- [Git 실무 워크플로우](./docs/git/workflow.md)
+- [Git 문제 해결 가이드](./docs/git/troubleshooting.md)
+
+### Markdown
+
+README, 문서 목차, 표, 코드블록, 체크리스트, GitHub 문서 작성 규칙을 정리합니다.
+
+- [Markdown 가이드](./docs/markdown/README.md)
+
+### Markup / CSS
+
+HTML 구조, 접근성, 클래스 네이밍, BEM, CSS 작성 순서, 반응형, 컴포넌트 스타일 규칙을 정리합니다.
+
+- [Markup / CSS 가이드](./docs/markup/README.md)
+- [CSS 문서 위치 안내](./docs/css/README.md)
+
+### Clean Code
+
+좋은 코드란 무엇인지, 네이밍/함수/주석/구조/리팩터링 기준을 정리합니다.
+
+- [Clean Code 가이드](./docs/clean-code/README.md)
+
+### TypeScript
+
+타입스크립트의 기본 개념부터 프론트엔드 실무에서 안전하게 쓰는 기준까지 정리합니다.
+
+- [TypeScript 가이드](./docs/typescript/README.md)
+
+### UI
+
+버튼, 폼, 모달, 탭, 카드 같은 UI 패턴의 공통 구현 원칙을 정리하는 영역입니다.
+
+- [UI 가이드](./docs/ui/README.md)
+
+---
+
+## 처음 보는 사람을 위한 추천 순서
+
+처음부터 모든 문서를 읽을 필요는 없습니다. 지금 필요한 상황에 맞게 보면 됩니다.
+
+| 상황 | 먼저 볼 문서 |
+|---|---|
+| GitHub 레포를 만들고 로컬 폴더와 연결해야 한다 | [Git 입문 가이드](./docs/git/beginner.md) |
+| Fork 앱에서 Push, Pull, Branch가 헷갈린다 | [Git 가이드 시작하기](./docs/git/README.md) |
+| `rejected`, `fetch first`, 충돌 오류가 났다 | [Git 문제 해결 가이드](./docs/git/troubleshooting.md) |
+| README를 보기 좋게 만들고 싶다 | [Markdown 가이드](./docs/markdown/README.md) |
+| HTML/CSS 컨벤션을 정하고 싶다 | [Markup / CSS 가이드](./docs/markup/README.md) |
+| 코드가 점점 복잡해지고 읽기 어려워진다 | [Clean Code 가이드](./docs/clean-code/README.md) |
+| JavaScript 프로젝트를 TypeScript로 정리하고 싶다 | [TypeScript 가이드](./docs/typescript/README.md) |
 
 ---
 
@@ -62,134 +93,70 @@ frontend-guide/
 │  │  ├─ workflow.md
 │  │  └─ troubleshooting.md
 │  ├─ markdown/
+│  │  └─ README.md
 │  ├─ markup/
+│  │  └─ README.md
 │  ├─ css/
+│  │  └─ README.md
+│  ├─ clean-code/
+│  │  └─ README.md
+│  ├─ typescript/
+│  │  └─ README.md
 │  └─ ui/
+│     └─ README.md
 ├─ tools/
 ├─ assets/
-│  └─ images/
 ├─ NOTICE.md
 └─ LICENSE
 ```
 
 ---
 
-## 운영 원칙
+## 문서 작성 원칙
 
-### 1. 문서는 `docs/` 아래에서 관리합니다
+이 저장소의 문서는 “개념 설명”보다 “실제 적용”에 무게를 둡니다.
 
-문서 성격의 자료는 모두 `docs/` 아래로 모읍니다.
+좋은 문서는 아래 기준을 만족해야 합니다.
 
-예를 들어 Git, Markdown, 마크업, CSS, UI 컨벤션은 각각 독립된 폴더를 갖습니다.
-
-### 2. 실행 가능한 작은 도구는 `tools/`에 둡니다
-
-CSS 속성 정렬기, 코드 변환기처럼 간단한 도구는 `tools/` 아래에 둡니다.
-
-단, 독립적으로 배포해야 하는 앱 수준의 도구라면 별도 레포지토리로 분리하는 것이 좋습니다.
-
-### 3. 문서는 실무 상황 중심으로 작성합니다
-
-이 저장소의 문서는 사전처럼 모든 개념을 나열하는 것이 아니라, 실제 작업 중 자주 만나는 상황을 기준으로 작성합니다.
-
-좋은 문서의 기준은 다음과 같습니다.
-
-- 지금 어떤 상황인지 판단할 수 있다.
-- 바로 실행할 명령어가 있다.
-- 위험한 명령어는 주의사항이 함께 있다.
-- Fork 같은 GUI 도구를 쓰는 사람도 이해할 수 있다.
-- 초보자도 따라 할 수 있지만, 실무자에게도 도움이 된다.
+| 기준 | 설명 |
+|---|---|
+| 결론이 먼저 보인다 | 글을 끝까지 읽지 않아도 방향을 알 수 있어야 합니다. |
+| 상황별로 찾을 수 있다 | `처음 시작`, `문제 발생`, `실무 적용`처럼 사용 맥락이 보여야 합니다. |
+| 예시가 있다 | 좋은 예와 나쁜 예가 함께 있어야 실제 코드에 적용할 수 있습니다. |
+| 위험한 작업을 표시한다 | `reset`, `force push`, `rebase`처럼 이력에 영향을 주는 작업은 주의가 필요합니다. |
+| 오래 유지될 수 있다 | 개인 취향보다 범용 컨벤션과 팀 협업 기준을 우선합니다. |
 
 ---
 
-## Git 문서 요약
-
-Git 문서는 네 개로 나누어 관리합니다.
-
-### `docs/git/README.md`
-
-Git 문서의 시작점입니다. Git과 GitHub의 차이, 기본 흐름, 자주 쓰는 명령어, 상황별 빠른 처방을 정리합니다.
-
-### `docs/git/beginner.md`
-
-입문자를 위한 문서입니다. `clone`과 `remote add`의 차이, 처음 GitHub에 올리는 흐름, `.gitignore`, SSH/HTTPS, Fork 앱 기준을 설명합니다.
-
-### `docs/git/workflow.md`
-
-실무 작업 흐름 문서입니다. 브랜치 전략, 커밋 메시지, Pull Request, merge/rebase, stash, cherry-pick, squash/fixup, upstream 관리까지 다룹니다.
-
-### `docs/git/troubleshooting.md`
-
-문제 해결 문서입니다. `fetch first`, `non-fast-forward`, 충돌, remote 오류, 잘못 만든 브랜치, 커밋 수정, reset/revert, GitHub에 파일이 안 보이는 문제를 다룹니다.
-
----
-
-## 이 저장소를 사용하는 방식
-
-개인 프로젝트에서는 작업 전에 이 저장소를 체크리스트처럼 사용합니다.
-
-```txt
-작업 전
-- git status
-- git branch
-- git remote -v
-
-작업 중
-- 변경 파일 확인
-- 필요한 파일만 stage
-- 의미 있는 커밋 메시지 작성
-
-작업 후
-- push 확인
-- GitHub에서 브랜치와 파일 확인
-```
-
-팀 프로젝트에서는 프로젝트 README나 Wiki에서 이 저장소의 관련 문서를 링크해 공통 기준으로 사용할 수 있습니다.
-
----
-
-## 문서 작성 규칙
-
-이 저장소의 문서는 아래 형식을 권장합니다.
-
-```md
-# 문서 제목
-
-> 이 문서가 해결하는 문제를 한 문장으로 설명합니다.
-
-## 먼저 결론
-
-가장 중요한 판단 기준을 먼저 적습니다.
-
-## 상황별 가이드
-
-실제 사용자가 만나는 상황을 기준으로 설명합니다.
-
-## 명령어
-
-바로 복사해서 사용할 수 있는 명령어를 제공합니다.
-
-## 주의사항
-
-작업 내용 삭제, 이력 변경, 강제 push 등 위험한 부분을 명확히 표시합니다.
-```
-
----
-
-## 기존 개별 레포지토리 정리 기준
+## 통합 관리 기준
 
 기존에 따로 관리하던 문서형 레포지토리는 이 저장소로 통합하는 것을 권장합니다.
 
-| 기존 자료 성격 | 추천 처리 |
+| 기존 자료 성격 | 추천 위치 |
 |---|---|
-| Git 튜토리얼 | `docs/git/`로 통합 |
-| Markdown 가이드 | `docs/markdown/`로 통합 |
-| 마크업 컨벤션 | `docs/markup/`로 통합 |
-| CSS 정렬/작성 규칙 | `docs/css/`로 통합 |
-| 작은 CSS 변환 도구 | `tools/`로 통합 가능 |
-| 독립 배포가 필요한 웹앱 | 별도 레포 유지 |
+| Git 튜토리얼, Git 명령어 모음 | `docs/git/` |
+| Markdown 작성법 | `docs/markdown/` |
+| 마크업/CSS 컨벤션 | `docs/markup/` |
+| 클린 코드 글 | `docs/clean-code/` |
+| TypeScript 학습 정리 | `docs/typescript/` |
+| UI 패턴 규칙 | `docs/ui/` |
+| CSS 정렬/변환 같은 작은 도구 | `tools/` |
+| 독립 배포가 필요한 앱 수준 도구 | 별도 레포 유지 |
 
-기존 레포지토리는 바로 삭제하기보다 README 상단에 이동 안내를 남긴 뒤, GitHub에서 Archive 처리하는 방식을 추천합니다.
+문서형 자료는 하나의 저장소에서 관리하는 편이 찾기 쉽고, 포트폴리오 관점에서도 더 전문적으로 보입니다. 반대로 실제 배포가 필요한 웹앱이나 독립적인 도구는 별도 레포로 유지하는 편이 좋습니다.
+
+---
+
+## 기존 레포지토리 정리 방법
+
+기존 문서 레포는 바로 삭제하기보다 아래 방식으로 정리하는 것을 추천합니다.
+
+1. 기존 레포 README 상단에 이동 안내 추가
+2. 새 문서 위치 링크 연결
+3. GitHub에서 Archive 처리
+4. 새 수정은 `frontend-guide`에서만 진행
+
+예시:
 
 ```md
 # 안내
@@ -201,16 +168,21 @@ https://github.com/heodokyung/frontend-guide
 
 ---
 
-## 라이선스와 출처
+## 참고 기준
 
-외부 자료를 참고해 문서를 재구성한 경우, 원문을 그대로 복사하지 않고 직접 다시 작성합니다. 참고한 자료와 라이선스 정보는 [NOTICE.md](./NOTICE.md)에 남깁니다.
+이 저장소는 개인 경험만이 아니라, 일반적으로 널리 쓰이는 문서/컨벤션을 함께 참고합니다.
+
+- Google HTML/CSS Style Guide
+- MDN Web Docs
+- GitHub Markdown 문서
+- CommonMark
+- TypeScript Handbook
+- Conventional Commits
+
+세부 참고 자료와 기존 문서 통합 내역은 [NOTICE.md](./NOTICE.md)에 기록합니다.
 
 ---
 
-## 핵심 결론
+## 한 줄 결론
 
-`frontend-guide`는 단순한 개인 메모 저장소가 아니라, **프론트엔드 실무를 위한 기준 문서 저장소**입니다.
-
-이 저장소의 목표는 하나입니다.
-
-> 매번 헷갈리는 개발 작업 기준을 한곳에서 빠르게 확인하고, 실수 없이 적용할 수 있게 만드는 것.
+> `frontend-guide`는 프론트엔드 작업을 할 때 매번 다시 검색하던 기준을 한곳에 모아, 실수 없이 빠르게 적용하기 위한 개인/실무 겸용 개발 가이드입니다.
