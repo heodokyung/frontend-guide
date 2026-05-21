@@ -1,4 +1,4 @@
-# Markup / CSS Guide
+# Markup / CSS Guide (Heo do kyung)
 
 > HTML은 의미 있게, CSS는 예측 가능하게 작성하기 위한 프론트엔드 마크업/CSS 컨벤션입니다.
 
