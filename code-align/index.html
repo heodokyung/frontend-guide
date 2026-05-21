@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CSS · JavaScript · HTML 코드 정렬기. 하이브리드 정렬 + Prettier 옵션.">
+  <meta name="color-scheme" content="dark">
+  <title>Code Formatter</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --panel-hover: #1c2129;
+      --border: #30363d;
+      --border-strong: #484f58;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-css: #58a6ff;
+      --accent-js: #f1e05a;
+      --accent-html: #e34c26;
+      --success: #3fb950;
+      --warning: #d29922;
+      --danger: #f85149;
+      --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      --font-code: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', Menlo, Consolas, monospace;
+      --radius: 8px;
+      --radius-sm: 6px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand h1 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+      background: var(--panel); border: 1px solid var(--border);
+    }
+    .badge[data-lang="css"]  { color: var(--accent-css);  border-color: rgba(88,166,255,0.4); }
+    .badge[data-lang="js"]   { color: var(--accent-js);   border-color: rgba(241,224,90,0.4); }
+    .badge[data-lang="html"] { color: var(--accent-html); border-color: rgba(227,76,38,0.4); }
+
+    .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .status {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 500; color: var(--text-muted);
+      background: var(--panel); border: 1px solid var(--border);
+      min-width: 110px; justify-content: center;
+    }
+    .status::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--text-muted); flex-shrink: 0;
+    }
+    .status.ready::before   { background: var(--success); }
+    .status.error::before   { background: var(--danger); }
+    .status.busy::before    { background: var(--warning); animation: pulse 0.8s ease-in-out infinite; }
+    .status.loading::before { background: var(--accent);  animation: pulse 0.8s ease-in-out infinite; }
+    .status.partial::before { background: var(--warning); }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    select, input[type="number"] {
+      padding: 7px 28px 7px 12px;
+      background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text); font-family: inherit; font-size: 13px; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+    }
+    input[type="number"] {
+      width: 80px; padding-right: 12px; background-image: none; cursor: text; text-align: center;
+    }
+    select:hover, input[type="number"]:hover { border-color: var(--border-strong); background-color: var(--panel-hover); }
+    select:focus, input[type="number"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+
+    .control-group { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; }
+
+    main { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
+
+    .panel {
+      display: flex; flex-direction: column;
+      background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; min-height: 0;
+    }
+    .panel-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 12px 9px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .panel-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .panel-actions { display: flex; gap: 4px; }
+
+    textarea {
+      flex: 1; width: 100%; min-height: 520px;
+      padding: 16px; background: transparent; border: 0;
+      color: var(--text); font-family: var(--font-code);
+      font-size: 13px; line-height: 1.65;
+      resize: vertical; outline: none;
+      tab-size: 2; white-space: pre; overflow: auto;
+    }
+    textarea::placeholder { color: var(--text-muted); opacity: 0.5; }
+
+    button {
+      padding: 6px 12px; background: transparent;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text); font-family: inherit; font-size: 12px; font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.05s, opacity 0.15s;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    button:hover { background: var(--panel-hover); border-color: var(--border-strong); }
+    button:active { transform: scale(0.97); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    button.primary {
+      background: var(--success); border-color: var(--success);
+      color: #0d1117; font-weight: 600; padding: 9px 20px; font-size: 13px;
+    }
+    button.primary:hover { background: #46c763; border-color: #46c763; }
+    button.primary:disabled:hover { background: var(--success); border-color: var(--success); }
+
+    .actions-bar { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 4px 0; }
+    .actions-bar button:not(.primary) { padding: 8px 14px; font-size: 13px; }
+
+    #toast {
+      position: fixed; left: 50%; bottom: 28px;
+      transform: translateX(-50%) translateY(120px);
+      max-width: 90vw; padding: 11px 18px;
+      background: var(--panel); border: 1px solid var(--border-strong); border-radius: var(--radius);
+      color: var(--text); font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+      pointer-events: none; z-index: 100;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #toast.success { border-color: var(--success); }
+    #toast.error   { border-color: var(--danger); }
+    #toast.warn    { border-color: var(--warning); }
+
+    .hint { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; text-align: center; }
+    kbd {
+      display: inline-block; padding: 1px 6px;
+      background: var(--bg); border: 1px solid var(--border); border-bottom-width: 2px;
+      border-radius: 4px; font-family: var(--font-code); font-size: 11px;
+      color: var(--text); vertical-align: middle;
+    }
+
+    .lib-warn {
+      display: none; padding: 10px 14px;
+      background: rgba(210, 153, 34, 0.08);
+      border: 1px solid rgba(210, 153, 34, 0.4);
+      border-radius: var(--radius-sm); font-size: 12px; color: var(--warning);
+    }
+    .lib-warn.show { display: block; }
+    .lib-warn strong { color: var(--text); }
+
+    textarea::-webkit-scrollbar { width: 10px; height: 10px; }
+    textarea::-webkit-scrollbar-track { background: transparent; }
+    textarea::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+    textarea::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <h1>Code Formatter</h1>
+        <span class="badge" id="langBadge" data-lang="css">CSS</span>
+      </div>
+      <div class="controls">
+        <span class="status loading" id="status">초기화 중...</span>
+        <select id="language" aria-label="언어 선택">
+          <option value="css">CSS</option>
+          <option value="js">JavaScript</option>
+          <option value="html">HTML</option>
+        </select>
+        <select id="indent" aria-label="들여쓰기 단위">
+          <option value="2" selected>Spaces · 2</option>
+          <option value="4">Spaces · 4</option>
+          <option value="tab">Tab</option>
+        </select>
+        <div class="control-group">
+          <label for="printWidth">너비</label>
+          <input type="number" id="printWidth" value="120" min="40" max="240" step="10" aria-label="줄 길이 제한 (Prettier 사용 시)">
+        </div>
+      </div>
+    </header>
+
+    <div class="lib-warn" id="libWarn" role="alert">
+      ⚠ <strong>Prettier 로드 실패</strong> — JS/HTML 변환은 비활성화됩니다. <strong>CSS는 자체 포매터로 정상 작동</strong>합니다.
+    </div>
+
+    <main>
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-title">입력</span>
+          <div class="panel-actions">
+            <button id="pasteBtn" title="클립보드에서 붙여넣기">붙여넣기</button>
+            <button id="clearBtn" title="입출력 모두 지우기">비우기</button>
+          </div>
+        </div>
+        <textarea id="input" placeholder="여기에 코드를 붙여넣고 변환하기를 누르세요. (Ctrl+Enter)" spellcheck="false" autocomplete="off"></textarea>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-title">결과</span>
+          <div class="panel-actions">
+            <button id="copyBtn" title="결과 복사 (Ctrl+Shift+C)">복사</button>
+            <button id="downloadBtn" title="파일로 저장">저장</button>
+          </div>
+        </div>
+        <textarea id="output" placeholder="정렬된 코드가 여기에 표시됩니다." spellcheck="false" readonly></textarea>
+      </section>
+    </main>
+
+    <div class="actions-bar">
+      <button id="swapBtn" title="입력↔결과 교환">⇅ 스왑</button>
+      <button id="formatBtn" class="primary" title="변환 (Ctrl+Enter)" disabled>변환하기</button>
+    </div>
+
+    <p class="hint">
+      <kbd>Ctrl</kbd>+<kbd>Enter</kbd> 변환
+      &nbsp;·&nbsp;
+      <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> 복사
+      &nbsp;·&nbsp;
+      CSS는 자체 정렬(PROPERTY_ORDER + 알파벳 hybrid), JS/HTML은 Prettier 3.8
+    </p>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+
+    /**
+     * Code Formatter
+     * ─────────────────────────────────────────────────────────────────────────
+     *  CSS  : 자체 hybrid 정렬 + Google 가이드 정규화. Prettier 있으면 후처리.
+     *  JS   : Prettier 필수.
+     *  HTML : Prettier 필수.
+     *
+     *  CDN fallback: unpkg → jsdelivr → cdnjs (전부 실패 시 graceful degradation)
+     * ─────────────────────────────────────────────────────────────────────────
+     */
+    (function () {
+      // ===================================================================
+      //  DOM
+      // ===================================================================
+      const $ = (id) => document.getElementById(id);
+      const els = {
+        input: $('input'), output: $('output'),
+        language: $('language'), indent: $('indent'), printWidth: $('printWidth'),
+        langBadge: $('langBadge'), status: $('status'),
+        toast: $('toast'), libWarn: $('libWarn'),
+        formatBtn: $('formatBtn'), copyBtn: $('copyBtn'),
+        clearBtn: $('clearBtn'), pasteBtn: $('pasteBtn'),
+        downloadBtn: $('downloadBtn'), swapBtn: $('swapBtn'),
+      };
+
+      // ===================================================================
+      //  유틸
+      // ===================================================================
+      const getIndentInfo = (setting) => {
+        if (setting === 'tab') return { useTabs: true, tabWidth: 2, unit: '\t' };
+        const n = parseInt(setting, 10) || 2;
+        return { useTabs: false, tabWidth: n, unit: ' '.repeat(n) };
+      };
+
+      const getPrintWidth = () => {
+        const n = parseInt(els.printWidth.value, 10);
+        if (isNaN(n) || n < 40) return 120;
+        if (n > 240) return 240;
+        return n;
+      };
+
+      let toastTimer = null;
+      const showToast = (message, type = '') => {
+        els.toast.textContent = message;
+        els.toast.className = ('show ' + type).trim();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => { els.toast.className = ''; }, 2400);
+      };
+
+      const setStatus = (text, type = '') => {
+        els.status.textContent = text;
+        els.status.className = ('status ' + type).trim();
+      };
+
+      // ===================================================================
+      //  PROPERTY_ORDER
+      //  ── Outside-In 방식 (display→position→box-model→border→background→...)
+      //  ── 모던 CSS 보강: logical properties, min/max-*, flex/grid 세부
+      //  ── 여기 없는 속성은 알파벳 순으로 뒤에 붙음
+      // ===================================================================
+      const PROPERTY_ORDER = [
+        // Reset / global
+        'all', 'appearance', 'content-visibility', 'will-change', 'isolation', 'contain',
+
+        // Display
+        'box-sizing', 'display',
+
+        // Position
+        'position', 'top', 'right', 'bottom', 'left', 'inset',
+        'inset-inline', 'inset-inline-start', 'inset-inline-end',
+        'inset-block', 'inset-block-start', 'inset-block-end',
+        'z-index',
+
+        // Flexbox
+        'flex', 'flex-flow', 'flex-direction', 'flex-wrap',
+        'flex-grow', 'flex-shrink', 'flex-basis', 'order',
+
+        // Grid
+        'grid', 'grid-template', 'grid-template-columns', 'grid-template-rows',
+        'grid-template-areas', 'grid-auto-columns', 'grid-auto-rows', 'grid-auto-flow',
+        'grid-column', 'grid-column-start', 'grid-column-end',
+        'grid-row', 'grid-row-start', 'grid-row-end', 'grid-area',
+
+        // Alignment / gap
+        'place-content', 'place-items', 'place-self',
+        'justify-content', 'justify-items', 'justify-self',
+        'align-content', 'align-items', 'align-self',
+        'gap', 'row-gap', 'column-gap',
+
+        // Box model
+        'width', 'min-width', 'max-width', 'inline-size', 'min-inline-size', 'max-inline-size',
+        'height', 'min-height', 'max-height', 'block-size', 'min-block-size', 'max-block-size',
+        'aspect-ratio',
+
+        // Margin
+        'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+        'margin-inline', 'margin-inline-start', 'margin-inline-end',
+        'margin-block', 'margin-block-start', 'margin-block-end',
+
+        // Padding
+        'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+        'padding-inline', 'padding-inline-start', 'padding-inline-end',
+        'padding-block', 'padding-block-start', 'padding-block-end',
+
+        // Border
+        'border', 'border-width', 'border-style', 'border-color',
+        'border-top', 'border-right', 'border-bottom', 'border-left',
+        'border-radius',
+        'border-top-left-radius', 'border-top-right-radius',
+        'border-bottom-left-radius', 'border-bottom-right-radius',
+        'outline', 'outline-width', 'outline-style', 'outline-color', 'outline-offset',
+
+        // Background
+        'background', 'background-color', 'background-image', 'background-position',
+        'background-size', 'background-repeat', 'background-attachment',
+        'background-origin', 'background-clip', 'background-blend-mode',
+
+        // Color
+        'color',
+
+        // Typography
+        'font', 'font-family', 'font-size', 'font-weight', 'font-style',
+        'font-variant', 'font-stretch', 'font-feature-settings',
+        'line-height', 'letter-spacing', 'word-spacing',
+        'text-align', 'text-decoration', 'text-transform', 'text-indent',
+        'text-shadow', 'text-overflow', 'text-rendering',
+        'white-space', 'word-break', 'word-wrap', 'overflow-wrap',
+        'vertical-align', 'direction', 'writing-mode',
+
+        // Overflow / scroll
+        'overflow', 'overflow-x', 'overflow-y',
+        'scroll-behavior', 'scrollbar-gutter', 'scrollbar-width', 'scrollbar-color',
+
+        // Visibility / opacity (visual modifiers)
+        'visibility', 'opacity',
+
+        // Interaction
+        'cursor', 'pointer-events', 'touch-action', 'user-select',
+        'resize', 'caret-color',
+
+        // Visual effects
+        'box-shadow', 'filter', 'backdrop-filter', 'mix-blend-mode',
+        'clip-path', 'mask', 'mask-image',
+
+        // Transform / motion
+        'transform', 'transform-origin', 'transform-style',
+        'perspective', 'perspective-origin',
+        'transition', 'transition-property', 'transition-duration',
+        'transition-timing-function', 'transition-delay',
+        'animation', 'animation-name', 'animation-duration',
+        'animation-timing-function', 'animation-delay', 'animation-iteration-count',
+        'animation-direction', 'animation-fill-mode', 'animation-play-state',
+      ];
+
+      // 2026년 기준 prefix가 실제로 필요한 속성만 (대부분 표준화 완료)
+      // 참고: caniuse 데이터 — 표준 도구는 autoprefixer 사용
+      const WEBKIT_PROPS = ['user-select'];
+
+      // ===================================================================
+      //  CssEngine — 자체 정렬 + Google 가이드 정규화
+      //  Prettier 없이도 90% 품질을 보장하는 자족(self-sufficient) 포매터
+      // ===================================================================
+      const CssEngine = (function () {
+        const COMMENT_PLACEHOLDER = '\x00COMMENT\x00';
+
+        /** 1단계: 주석 보호 */
+        const protectComments = (input) => {
+          const comments = [];
+          const protectedStr = input.replace(/\/\*[\s\S]*?\*\//g, (m) => {
+            comments.push(m.trim());
+            return `${COMMENT_PLACEHOLDER}${comments.length - 1}${COMMENT_PLACEHOLDER}`;
+          });
+          return { protectedStr, comments };
+        };
+
+        /** 단순 AST 파서 */
+        const parseAST = (cssString) => {
+          const root = { type: 'root', children: [] };
+          const stack = [root];
+          let buffer = '', quote = null, parenDepth = 0;
+
+          for (let i = 0; i < cssString.length; i++) {
+            const ch = cssString[i];
+
+            if (quote) {
+              buffer += ch;
+              if (ch === quote && cssString[i - 1] !== '\\') quote = null;
+              continue;
+            }
+            if (ch === '"' || ch === "'") { quote = ch; buffer += ch; continue; }
+            if (ch === '(') parenDepth++;
+            else if (ch === ')') parenDepth--;
+
+            if (ch === '{' && parenDepth === 0) {
+              const current = stack[stack.length - 1];
+              const selector = buffer.trim();
+              const node = {
+                type: selector.startsWith('@') ? 'at-rule' : 'rule',
+                selector, declarations: [], children: [],
+              };
+              current.children.push(node);
+              stack.push(node);
+              buffer = '';
+              continue;
+            }
+            if (ch === '}' && parenDepth === 0) {
+              const current = stack.pop();
+              if (buffer.trim()) current.declarations.push(buffer.trim());
+              buffer = '';
+              continue;
+            }
+            if (ch === ';' && parenDepth === 0) {
+              const current = stack[stack.length - 1];
+              if (current.type === 'root') {
+                current.children.push({ type: 'directive', content: buffer.trim() + ';' });
+              } else {
+                current.declarations.push(buffer.trim());
+              }
+              buffer = '';
+              continue;
+            }
+            buffer += ch;
+          }
+          return root;
+        };
+
+        /**
+         * Google CSS 가이드 기반 값 정규화.
+         * - hex 6자 → 가능 시 3자 단축, 모두 소문자
+         * - 0 길이 단위 제거 (0px → 0). 시간/각도/flex-basis는 유지
+         * - 단위는 소문자 (0PX → 0, 100PX → 100px)
+         * - 큰따옴표 → 작은따옴표
+         * - url() 안 따옴표 제거
+         * - 선행 0은 유지 (Google 정책: 0.8em 권장)
+         * - 값 내부의 줄바꿈/연속 공백 정리
+         */
+        const normalizeValue = (val) => {
+          // 내부 줄바꿈/연속 공백 정리
+          val = val.replace(/\s+/g, ' ').trim();
+
+          // hex 6자 → 3자 단축 + 소문자
+          val = val.replace(/#([0-9a-fA-F]{6})\b/g, (_, hex) => {
+            const lo = hex.toLowerCase();
+            if (lo[0] === lo[1] && lo[2] === lo[3] && lo[4] === lo[5]) {
+              return '#' + lo[0] + lo[2] + lo[4];
+            }
+            return '#' + lo;
+          });
+          // hex 3~4자/8자 소문자화
+          val = val.replace(/#([0-9a-fA-F]{3,4})\b/g, (_, hex) => '#' + hex.toLowerCase());
+          val = val.replace(/#([0-9a-fA-F]{8})\b/g, (_, hex) => '#' + hex.toLowerCase());
+
+          // 단위 소문자화 (10PX → 10px). hex 색상값은 위에서 이미 처리됨.
+          val = val.replace(
+            /(\d+(?:\.\d+)?)(PX|EM|REM|VW|VH|VMIN|VMAX|PT|PC|IN|CM|MM|EX|CH|FR|S|MS|DEG|RAD|GRAD|TURN)\b/g,
+            (_, num, unit) => num + unit.toLowerCase()
+          );
+
+          // 0의 길이 단위 제거. 시간(s,ms)/각도(deg,rad,grad,turn)는 유지
+          val = val.replace(
+            /(^|[\s,(])0(px|em|rem|%|vw|vh|vmin|vmax|pt|pc|in|cm|mm|ex|ch|fr)\b/gi,
+            '$10'
+          );
+
+          // url() 안 따옴표 제거 (Google 권장)
+          val = val.replace(/url\((["'])([^)]*?)\1\)/g, 'url($2)');
+
+          // 함수 괄호 안 양끝 공백 정리: f( a, b ) → f(a, b)
+          val = val.replace(/\(\s+/g, '(').replace(/\s+\)/g, ')');
+
+          // CSS 키워드 값 소문자화 (문자열·url 내부는 보존).
+          // 식별자(영문 시작, 영문/숫자/하이픈)만 소문자로. 단위는 위에서 처리됨.
+          val = val.replace(/(['"])[^'"]*\1|url\([^)]*\)|([a-zA-Z][a-zA-Z0-9-]*)/g,
+            (m, _quoted, ident) => ident ? ident.toLowerCase() : m
+          );
+
+          // 큰따옴표 → 작은따옴표 (단순 케이스, 내부에 작은따옴표 없을 때만)
+          val = val.replace(/"([^"']*)"/g, "'$1'");
+
+          return val;
+        };
+
+        /**
+         * 선언 파싱: 한 chunk 안에 주석과 선언이 섞여있을 수 있어 array 반환.
+         * 예: "(주석) display: flex" → [{type:comment}, {type:prop, key:display}]
+         */
+        const parseDeclaration = (chunk) => {
+          const placeholderRe = new RegExp(COMMENT_PLACEHOLDER + '\\d+' + COMMENT_PLACEHOLDER, 'g');
+
+          const pushProp = (results, text) => {
+            const t = text.trim();
+            if (!t) return;
+            const idx = t.indexOf(':');
+            if (idx === -1) return;
+            results.push({
+              type: 'prop',
+              key: t.slice(0, idx).trim().toLowerCase(),
+              val: normalizeValue(t.slice(idx + 1).trim()),
+            });
+          };
+
+          // 주석이 전혀 없는 단순 경로
+          if (!placeholderRe.test(chunk)) {
+            const r = [];
+            pushProp(r, chunk);
+            return r;
+          }
+
+          // 주석과 선언 분리
+          placeholderRe.lastIndex = 0;
+          const result = [];
+          let lastIndex = 0;
+          let m;
+          while ((m = placeholderRe.exec(chunk)) !== null) {
+            pushProp(result, chunk.slice(lastIndex, m.index));
+            result.push({ type: 'comment', val: m[0] });
+            lastIndex = placeholderRe.lastIndex;
+          }
+          pushProp(result, chunk.slice(lastIndex));
+          return result;
+        };
+
+        /**
+         * 정렬 알고리즘 (hybrid):
+         * 1. 주석은 다음 선언에 leadingComments로 attach (위치 보존)
+         * 2. PROPERTY_ORDER 안에 있으면 그 순서대로
+         * 3. 없으면 알파벳 순으로 PROPERTY_ORDER 뒤에 배치
+         * 4. -webkit- 프리픽스는 표준 속성 바로 앞
+         */
+        const sortDeclarations = (rawDecls) => {
+          const parsed = rawDecls.flatMap(parseDeclaration);
+
+          // -webkit- 자동 보강 (현재는 user-select만)
+          const out = [];
+          const existingKeys = new Set(
+            parsed.filter((p) => p.type === 'prop').map((p) => p.key)
+          );
+          parsed.forEach((d) => {
+            if (d.type === 'prop'
+                && WEBKIT_PROPS.includes(d.key)
+                && !existingKeys.has('-webkit-' + d.key)) {
+              out.push({ type: 'prop', key: '-webkit-' + d.key, val: d.val });
+            }
+            out.push(d);
+          });
+
+          // 주석을 leading comments로 묶기
+          const groups = [];
+          let pending = [];
+          for (const d of out) {
+            if (d.type === 'comment') {
+              pending.push(d);
+            } else {
+              groups.push({ decl: d, leading: pending });
+              pending = [];
+            }
+          }
+          const trailing = pending;
+
+          // 안정 정렬 (PROPERTY_ORDER + 알파벳 hybrid)
+          groups.sort((a, b) => {
+            const ak = a.decl.key.replace(/^-webkit-/, '');
+            const bk = b.decl.key.replace(/^-webkit-/, '');
+            const ai = PROPERTY_ORDER.indexOf(ak);
+            const bi = PROPERTY_ORDER.indexOf(bk);
+
+            if (ai !== -1 && bi !== -1) {
+              if (ai !== bi) return ai - bi;
+              // 같은 base, -webkit- 가 표준 앞에
+              return a.decl.key.startsWith('-webkit-') ? -1 : 1;
+            }
+            if (ai !== -1) return -1;    // A는 정의됨 → 앞으로
+            if (bi !== -1) return 1;     // B는 정의됨 → 앞으로
+            return ak.localeCompare(bk); // 둘 다 미정의 → 알파벳
+          });
+
+          // 결과 펼치기
+          const result = [];
+          for (const g of groups) {
+            for (const c of g.leading) result.push(c);
+            result.push(g.decl);
+          }
+          for (const c of trailing) result.push(c);
+          return result;
+        };
+
+        /** CSS 출력 (들여쓰기/공백 처리) */
+        const generateCSS = (node, depth, indentUnit) => {
+          const indent = indentUnit.repeat(depth);
+
+          if (node.type === 'root') {
+            return node.children
+              .map((c) => generateCSS(c, depth, indentUnit))
+              .filter(Boolean)
+              .join('\n\n');
+          }
+          if (node.type === 'directive') return indent + node.content;
+
+          // 셀렉터에 끼어있는 주석을 분리 → 위쪽에 별도 라인으로 출력
+          const commentRe = new RegExp(COMMENT_PLACEHOLDER + '\\d+' + COMMENT_PLACEHOLDER, 'g');
+          const leadingComments = [];
+          const selectorOnly = node.selector.replace(commentRe, (m) => {
+            leadingComments.push(m);
+            return ' ';
+          });
+
+          const cleanSel = selectorOnly
+            .replace(/\s+/g, ' ')
+            .trim()
+            .replace(/\s*,\s*/g, ',\n' + indent);
+
+          const decls = sortDeclarations(node.declarations || []);
+
+          let out = '';
+          for (const c of leadingComments) {
+            out += indent + c + '\n';
+          }
+          out += indent + cleanSel + ' {';
+
+          if (decls.length === 0 && node.children.length === 0) {
+            return out + '}';
+          }
+
+          out += '\n';
+          decls.forEach((d) => {
+            const line = d.type === 'comment'
+              ? d.val
+              : `${d.key}: ${d.val};`;
+            out += indent + indentUnit + line + '\n';
+          });
+          node.children.forEach((c) => {
+            out += generateCSS(c, depth + 1, indentUnit) + '\n';
+          });
+          return out + indent + '}';
+        };
+
+        /** 메인 진입 */
+        const format = (input, indentUnit) => {
+          if (!input.trim()) return '';
+          const { protectedStr, comments } = protectComments(input);
+          const ast = parseAST(protectedStr);
+          let result = generateCSS(ast, 0, indentUnit);
+
+          // 주석 복원
+          const pattern = new RegExp(COMMENT_PLACEHOLDER + '(\\d+)' + COMMENT_PLACEHOLDER, 'g');
+          result = result.replace(pattern, (_, i) => comments[+i]);
+
+          // 빈 줄 정리 (3개 이상 → 2개)
+          return result.replace(/\n{3,}/g, '\n\n').trim() + '\n';
+        };
+
+        return { format };
+      })();
+
+      // ===================================================================
+      //  Prettier 동적 로드 (CDN fallback 체인)
+      //  unpkg → jsdelivr → cdnjs 순서로 시도
+      // ===================================================================
+      const PRETTIER_VERSION = '3.8.3';
+      const CDN_CHAIN = [
+        { name: 'unpkg',    base: `https://unpkg.com/prettier@${PRETTIER_VERSION}` },
+        { name: 'jsdelivr', base: `https://cdn.jsdelivr.net/npm/prettier@${PRETTIER_VERSION}` },
+        { name: 'cdnjs',    base: `https://cdnjs.cloudflare.com/ajax/libs/prettier/${PRETTIER_VERSION}` },
+      ];
+
+      const PRETTIER_FILES = [
+        'standalone.js',
+        'plugins/estree.js',
+        'plugins/babel.js',
+        'plugins/postcss.js',
+        'plugins/html.js',
+      ];
+
+      const loadScript = (src, timeoutMs = 6000) =>
+        new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.crossOrigin = 'anonymous';
+          const t = setTimeout(() => {
+            s.remove();
+            reject(new Error('timeout: ' + src));
+          }, timeoutMs);
+          s.onload = () => { clearTimeout(t); resolve(); };
+          s.onerror = () => { clearTimeout(t); s.remove(); reject(new Error('failed: ' + src)); };
+          document.head.appendChild(s);
+        });
+
+      const loadPrettier = async () => {
+        for (const cdn of CDN_CHAIN) {
+          try {
+            setStatus(`${cdn.name}에서 Prettier 로드...`, 'loading');
+            for (const f of PRETTIER_FILES) {
+              await loadScript(`${cdn.base}/${f}`);
+            }
+            if (window.prettier
+                && window.prettierPlugins
+                && typeof window.prettier.format === 'function') {
+              return { ok: true, source: cdn.name };
+            }
+          } catch (err) {
+            console.warn(`[Prettier] ${cdn.name} 실패:`, err.message);
+          }
+        }
+        return { ok: false };
+      };
+
+      // ===================================================================
+      //  포매터 (CSS는 항상 작동, JS/HTML은 Prettier 필요)
+      // ===================================================================
+      const buildPrettierOpts = (parser) => {
+        const { useTabs, tabWidth } = getIndentInfo(els.indent.value);
+        return {
+          parser,
+          plugins: window.prettierPlugins,
+          printWidth: getPrintWidth(),
+          tabWidth, useTabs,
+          endOfLine: 'lf',
+          singleQuote: true,    // Google CSS 정책
+          semi: true,
+          trailingComma: 'all',
+          bracketSpacing: true,
+          arrowParens: 'always',
+          htmlWhitespaceSensitivity: 'css',
+        };
+      };
+
+      const Formatters = {
+        async css(input) {
+          const { unit } = getIndentInfo(els.indent.value);
+          // 1단계: 자체 hybrid 정렬 + 정규화 (항상 실행)
+          const sorted = CssEngine.format(input, unit);
+          // 2단계: Prettier 후처리 (있을 때만, 줄 wrap 등)
+          if (window.prettier && window.prettierPlugins) {
+            try {
+              return await window.prettier.format(sorted, buildPrettierOpts('css'));
+            } catch (err) {
+              console.warn('[CSS] Prettier 후처리 실패, 자체 결과 반환:', err.message);
+              return sorted;
+            }
+          }
+          return sorted;
+        },
+        async js(input) {
+          if (!window.prettier) throw new Error('JS 변환은 Prettier 라이브러리가 필요합니다.');
+          return await window.prettier.format(input, buildPrettierOpts('babel'));
+        },
+        async html(input) {
+          if (!window.prettier) throw new Error('HTML 변환은 Prettier 라이브러리가 필요합니다.');
+          return await window.prettier.format(input, buildPrettierOpts('html'));
+        },
+      };
+
+      // ===================================================================
+      //  메인 액션
+      // ===================================================================
+      const runFormat = async () => {
+        const lang = els.language.value;
+        const input = els.input.value;
+
+        if (!input.trim()) {
+          setStatus('입력 없음');
+          els.output.value = '';
+          return;
+        }
+
+        try {
+          setStatus('변환 중...', 'busy');
+          els.formatBtn.disabled = true;
+          const t0 = performance.now();
+          const result = await Formatters[lang](input);
+          const ms = (performance.now() - t0).toFixed(1);
+          els.output.value = result;
+          const engine = (lang === 'css' && !window.prettier) ? '자체' : (lang === 'css' ? '자체+Prettier' : 'Prettier');
+          setStatus(`완료 · ${engine} · ${ms}ms`, 'ready');
+          showToast('변환 완료', 'success');
+        } catch (err) {
+          console.error('[formatter] error:', err);
+          setStatus('오류 발생', 'error');
+          const msg = (err && err.message) ? err.message : String(err);
+          els.output.value = `[변환 오류]\n${msg}`;
+          showToast('오류: 결과창에서 확인', 'error');
+        } finally {
+          els.formatBtn.disabled = false;
+        }
+      };
+
+      const copyOutput = async () => {
+        const text = els.output.value;
+        if (!text) { showToast('복사할 내용이 없습니다', 'warn'); return; }
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            els.output.removeAttribute('readonly');
+            els.output.select();
+            document.execCommand('copy');
+            els.output.setAttribute('readonly', '');
+            window.getSelection().removeAllRanges();
+          }
+          showToast('복사되었습니다', 'success');
+        } catch (err) {
+          showToast('복사 실패: ' + err.message, 'error');
+        }
+      };
+
+      const pasteInput = async () => {
+        try {
+          if (navigator.clipboard && navigator.clipboard.readText && window.isSecureContext) {
+            els.input.value = await navigator.clipboard.readText();
+            els.input.focus();
+            showToast('붙여넣기 완료', 'success');
+          } else {
+            els.input.focus();
+            showToast('Ctrl+V 로 직접 붙여넣어 주세요', 'warn');
+          }
+        } catch {
+          els.input.focus();
+          showToast('클립보드 읽기 거부됨. Ctrl+V 사용', 'warn');
+        }
+      };
+
+      const downloadOutput = () => {
+        const text = els.output.value;
+        if (!text) { showToast('저장할 내용이 없습니다', 'warn'); return; }
+        const lang = els.language.value;
+        const ext = { css: 'css', js: 'js', html: 'html' }[lang] || 'txt';
+        const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+        const filename = `formatted-${ts}.${ext}`;
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast(`저장됨: ${filename}`, 'success');
+      };
+
+      const swap = () => {
+        const a = els.input.value;
+        els.input.value = els.output.value;
+        els.output.value = a;
+        showToast('입출력 교환됨');
+      };
+
+      const clearAll = () => {
+        els.input.value = '';
+        els.output.value = '';
+        setStatus('대기');
+        els.input.focus();
+      };
+
+      const onLanguageChange = () => {
+        const lang = els.language.value;
+        const labels = { css: 'CSS', js: 'JavaScript', html: 'HTML' };
+        els.langBadge.textContent = labels[lang];
+        els.langBadge.setAttribute('data-lang', lang);
+        // CSS는 Prettier 없어도 작동, JS/HTML은 필요
+        const ready = window.prettier && window.prettierPlugins;
+        if (lang === 'css') {
+          els.formatBtn.disabled = false;
+          setStatus(ready ? '대기 (CSS: 자체+Prettier)' : '대기 (CSS: 자체)', ready ? 'ready' : 'partial');
+        } else {
+          els.formatBtn.disabled = !ready;
+          setStatus(ready ? `대기 (${labels[lang]}: Prettier)` : `${labels[lang]} 비활성 (Prettier 미로드)`, ready ? 'ready' : 'error');
+        }
+      };
+
+      // ===================================================================
+      //  이벤트
+      // ===================================================================
+      els.formatBtn.addEventListener('click', runFormat);
+      els.copyBtn.addEventListener('click', copyOutput);
+      els.pasteBtn.addEventListener('click', pasteInput);
+      els.clearBtn.addEventListener('click', clearAll);
+      els.downloadBtn.addEventListener('click', downloadOutput);
+      els.swapBtn.addEventListener('click', swap);
+      els.language.addEventListener('change', onLanguageChange);
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          if (!els.formatBtn.disabled) runFormat();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+          e.preventDefault();
+          copyOutput();
+        }
+      });
+
+      els.input.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const t = e.target;
+          const s = t.selectionStart, en = t.selectionEnd;
+          const { unit } = getIndentInfo(els.indent.value);
+          t.value = t.value.slice(0, s) + unit + t.value.slice(en);
+          t.selectionStart = t.selectionEnd = s + unit.length;
+        }
+      });
+
+      // ===================================================================
+      //  초기화: CSS는 즉시 사용 가능, Prettier는 비동기 로드
+      // ===================================================================
+      const init = async () => {
+        // CSS는 Prettier 없이도 작동하므로 즉시 활성화
+        onLanguageChange();
+        els.formatBtn.disabled = false;
+        setStatus('대기 (CSS: 자체)', 'partial');
+
+        // 백그라운드에서 Prettier 로드
+        const result = await loadPrettier();
+        if (result.ok) {
+          showToast(`Prettier 로드 성공 (${result.source})`, 'success');
+          onLanguageChange();  // 상태 갱신
+        } else {
+          els.libWarn.classList.add('show');
+          showToast('Prettier 로드 실패 — CSS만 사용 가능', 'warn');
+          onLanguageChange();  // 상태 갱신 (JS/HTML 비활성화)
+        }
+      };
+
+      init();
+    })();
+  </script>
+</body>
+</html>
