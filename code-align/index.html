@@ -6,7 +6,6 @@
   <meta name="description" content="CSS · JavaScript · HTML 코드 정렬기. 하이브리드 정렬 + Prettier 옵션.">
   <meta name="color-scheme" content="dark">
   <title>Code Formatter</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -35,7 +34,6 @@
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
-
     body {
       margin: 0;
       padding: 20px;
@@ -46,13 +44,10 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
-
     .app { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
-
     header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
     .brand { display: flex; align-items: center; gap: 12px; }
     .brand h1 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
-
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 3px 10px; border-radius: 999px;
@@ -116,7 +111,6 @@
     }
     .panel-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
     .panel-actions { display: flex; gap: 4px; }
-
     textarea {
       flex: 1; width: 100%; min-height: 520px;
       padding: 16px; background: transparent; border: 0;
@@ -126,7 +120,6 @@
       tab-size: 2; white-space: pre; overflow: auto;
     }
     textarea::placeholder { color: var(--text-muted); opacity: 0.5; }
-
     button {
       padding: 6px 12px; background: transparent;
       border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -164,7 +157,6 @@
     #toast.success { border-color: var(--success); }
     #toast.error   { border-color: var(--danger); }
     #toast.warn    { border-color: var(--warning); }
-
     .hint { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; text-align: center; }
     kbd {
       display: inline-block; padding: 1px 6px;
@@ -172,7 +164,6 @@
       border-radius: 4px; font-family: var(--font-code); font-size: 11px;
       color: var(--text); vertical-align: middle;
     }
-
     .lib-warn {
       display: none; padding: 10px 14px;
       background: rgba(210, 153, 34, 0.08);
@@ -181,7 +172,6 @@
     }
     .lib-warn.show { display: block; }
     .lib-warn strong { color: var(--text); }
-
     textarea::-webkit-scrollbar { width: 10px; height: 10px; }
     textarea::-webkit-scrollbar-track { background: transparent; }
     textarea::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
