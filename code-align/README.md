@@ -1,8 +1,8 @@
 # Code Align
 
-> CSS, HTML, JavaScript 코드를 빠르게 정리하기 위한 작은 웹 도구입니다.
+> HTML, CSS, JavaScript 코드를 빠르게 정리해 보기 위한 작은 웹 도구입니다.
 
-작성: Heo Do Kyung
+정리: Heo Do Kyung
 
 ---
 
@@ -23,7 +23,7 @@
 | GitHub에서 코드 보기 | [index.html](./index.html) |
 | GitHub Pages에서 실행 | `https://heodokyung.github.io/frontend-guide/code-align/` |
 
-GitHub README에서 `index.html`을 누르면 소스 파일이 열립니다. 실제 웹 도구처럼 실행하려면 GitHub Pages 주소로 접근해야 합니다.
+GitHub README에서 `index.html`을 누르면 웹 도구가 실행되는 것이 아니라 소스 파일이 열립니다. 실제로 사용하려면 GitHub Pages 주소로 들어가야 합니다.
 
 ---
 

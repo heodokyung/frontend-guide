@@ -57,6 +57,7 @@ Remote Repository, 예: GitHub
 | [beginner.md](./beginner.md) | Git을 처음 시작하거나, `clone`과 `remote`가 헷갈릴 때 |
 | [workflow.md](./workflow.md) | 브랜치, 커밋, Pull Request, merge/rebase 같은 실무 흐름이 필요할 때 |
 | [troubleshooting.md](./troubleshooting.md) | push 오류, 충돌, remote 오류, 잘못된 커밋을 해결해야 할 때 |
+| [repository-migration.md](./repository-migration.md) | 여러 학습용 레포를 하나로 모으거나 기존 레포를 정리할 때 |
 
 ---
 

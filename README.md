@@ -1,126 +1,139 @@
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f766e,100:2563eb&height=180&section=header&text=Frontend%20Guide&fontSize=46&fontColor=ffffff&desc=Heo%20Do%20Kyung%27s%20practical%20frontend%20notes&descAlignY=68" alt="Frontend Guide banner">
-</p>
+<div align="center">
 
-<h1 align="center">Frontend Guide</h1>
+# Frontend Guide
 
-<p align="center">
-  <strong>허도경이 실제 작업하며 정리한 프론트엔드 실무 가이드</strong><br>
-  Git, Markdown, Markup/CSS, Accessibility, Clean Code, TypeScript, Vanilla JS, UI 구현 기준을 한곳에 모았습니다.
-</p>
+프론트엔드 작업을 하면서 자주 다시 열어보는 기준을 모아둔 저장소입니다.
 
-<p align="center">
-  <a href="./docs/git/README.md"><img src="https://img.shields.io/badge/Git-workflow-f05032?style=flat-square&logo=git&logoColor=white" alt="Git workflow"></a>
-  <a href="./docs/markdown/README.md"><img src="https://img.shields.io/badge/Markdown-docs-000000?style=flat-square&logo=markdown&logoColor=white" alt="Markdown docs"></a>
-  <a href="./docs/markup/README.md"><img src="https://img.shields.io/badge/Markup%20%2F%20CSS-convention-1572b6?style=flat-square&logo=css3&logoColor=white" alt="Markup CSS convention"></a>
-  <a href="./docs/accessibility/README.md"><img src="https://img.shields.io/badge/Accessibility-WCAG%202.2-0f766e?style=flat-square" alt="Accessibility WCAG 2.2"></a>
-  <a href="./docs/typescript/README.md"><img src="https://img.shields.io/badge/TypeScript-guide-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript guide"></a>
-</p>
+Git, Markdown, Markup/CSS, 접근성, 클린 코드, TypeScript, Vanilla JS 전환까지  
+작업 중에 헷갈렸던 내용을 하나씩 정리하고 있습니다.
+
+<sub>정리 · Heo Do Kyung</sub>
+
+<br>
+
+[![Git](https://img.shields.io/badge/Git-workflow-f05032?style=flat-square&logo=git&logoColor=white)](./docs/git/README.md)
+[![Markdown](https://img.shields.io/badge/Markdown-docs-000000?style=flat-square&logo=markdown&logoColor=white)](./docs/markdown/README.md)
+[![Markup CSS](https://img.shields.io/badge/Markup%20%2F%20CSS-convention-1572b6?style=flat-square&logo=css3&logoColor=white)](./docs/markup/README.md)
+[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.2-0f766e?style=flat-square)](./docs/accessibility/README.md)
+[![TypeScript](https://img.shields.io/badge/TypeScript-guide-3178c6?style=flat-square&logo=typescript&logoColor=white)](./docs/typescript/README.md)
+
+</div>
 
 ---
 
 ## 목차
 
-- [이 저장소는 왜 만들었나](#이-저장소는-왜-만들었나)
-- [문서 지도](#문서-지도)
+- [이 저장소에 담은 것](#이-저장소에-담은-것)
+- [문서 바로가기](#문서-바로가기)
 - [처음 보는 사람을 위한 추천 순서](#처음-보는-사람을-위한-추천-순서)
-- [Code Align 도구 바로가기](#code-align-도구-바로가기)
+- [Code Align 실행하기](#code-align-실행하기)
 - [저장소 구조](#저장소-구조)
 - [문서 작성 기준](#문서-작성-기준)
-- [저작권과 사용 안내](#저작권과-사용-안내)
+- [사용 안내](#사용-안내)
 
 ---
 
-## 이 저장소는 왜 만들었나
+## 이 저장소에 담은 것
 
-프론트엔드 작업은 화면만 예쁘게 만드는 일이 아니었습니다.
+프론트엔드 작업은 화면을 만드는 일에서 끝나지 않습니다.
 
-작업을 하다 보면 매번 비슷한 순간에서 멈춥니다. GitHub에 처음 올릴 때, README를 다듬을 때, 마크업 구조를 잡을 때, CSS 순서가 흐트러질 때, 접근성을 놓쳤을 때, TypeScript 타입이 애매할 때. 그때마다 검색해서 넘기기보다, 내가 실제로 쓰는 기준을 한곳에 모아두고 싶었습니다.
+로컬 폴더를 GitHub에 연결해야 하고, README를 읽기 좋게 정리해야 하고, HTML 구조와 CSS 규칙도 흔들리지 않아야 합니다. 접근성, 타입 안정성, 코드 정리 기준도 작업이 커질수록 중요해집니다.
 
-`frontend-guide`는 그런 이유로 만든 저장소입니다.
+그래서 이 저장소에는 제가 실제로 작업하면서 다시 확인하고 싶은 기준을 모았습니다.  
+완성된 정답이라기보다, 프로젝트를 진행하면서 계속 다듬어 가는 작업 노트에 가깝습니다.
 
-이곳의 문서는 책처럼 한 번 읽고 끝내는 글이 아니라, 작업 중에 다시 열어보는 기준표에 가깝습니다. 내용은 계속 고쳐질 수 있고, 프로젝트를 진행하면서 더 나은 방식이 생기면 그 기준도 함께 바꿉니다.
+이런 상황에서 다시 열어보기 좋게 구성했습니다.
 
-> 이 가이드는 허도경(Heo Do Kyung)이 개인 프로젝트와 실무형 포트폴리오를 정리하며 만든 프론트엔드 작업 기준입니다.
+- GitHub 연결이나 Push 오류가 막힐 때
+- README와 문서 구조를 정리해야 할 때
+- HTML/CSS 컨벤션을 맞춰야 할 때
+- 접근성 기준을 빠르게 점검해야 할 때
+- jQuery 코드를 Vanilla JS로 옮겨야 할 때
+- TypeScript 타입 설계가 애매할 때
+- 코드가 길어져서 리팩터링 기준이 필요할 때
 
 ---
 
-## 문서 지도
+## 문서 바로가기
 
 ### Git
 
-로컬 폴더와 GitHub를 연결하거나, Fork 앱에서 Push가 막히거나, 브랜치와 커밋 흐름이 헷갈릴 때 봅니다.
+GitHub 연결, 브랜치, 커밋, Push 오류처럼 실제로 자주 막히는 부분을 중심으로 정리했습니다.
 
-| 문서 | 볼 때 |
-|---|---|
-| [Git 가이드 시작하기](./docs/git/README.md) | Git 흐름을 한 번에 정리하고 싶을 때 |
-| [Git 입문 가이드](./docs/git/beginner.md) | `clone`, `init`, `remote`, `push`가 헷갈릴 때 |
-| [Git 실무 워크플로우](./docs/git/workflow.md) | 브랜치, 커밋, PR, merge/rebase 흐름을 잡을 때 |
-| [Git 문제 해결 가이드](./docs/git/troubleshooting.md) | `rejected`, 충돌, remote 오류, 잘못된 커밋을 해결할 때 |
+- [Git 가이드](./docs/git/README.md)  
+  Git의 전체 흐름과 자주 쓰는 명령어를 한 번에 보는 문서입니다.
+- [Git 입문 가이드](./docs/git/beginner.md)  
+  `init`, `clone`, `remote`, `push`가 헷갈릴 때 먼저 보면 좋습니다.
+- [Git 실무 워크플로우](./docs/git/workflow.md)  
+  브랜치, 커밋, Pull Request, merge/rebase 흐름을 정리했습니다.
+- [Git 문제 해결 가이드](./docs/git/troubleshooting.md)  
+  `fetch first`, 충돌, remote 오류, 잘못 만든 브랜치 같은 문제를 다룹니다.
+- [레포지토리 통합 가이드](./docs/git/repository-migration.md)  
+  여러 학습용 레포를 하나의 저장소로 모을 때의 기준과 명령어를 정리했습니다.
 
 ### 문서 작성
 
-README와 문서형 저장소를 읽기 좋게 정리하기 위한 기준입니다.
-
-| 문서 | 볼 때 |
-|---|---|
-| [Markdown 가이드](./docs/markdown/README.md) | README, 표, 목차, 코드블록, 접기/펼치기 문법을 정리할 때 |
+- [Markdown 가이드](./docs/markdown/README.md)  
+  README, 문서, 이슈, PR 설명을 읽기 좋게 작성하기 위한 기준입니다.
 
 ### 마크업 / 스타일 / 접근성
 
-화면 구조를 의미 있게 만들고, CSS를 예측 가능하게 유지하기 위한 기준입니다.
-
-| 문서 | 볼 때 |
-|---|---|
-| [Markup / CSS 가이드](./docs/markup/README.md) | HTML 구조, 클래스 네이밍, CSS 작성 순서를 정할 때 |
-| [웹 접근성 가이드](./docs/accessibility/README.md) | WCAG 2.2 / KWCAG 2.2 기준으로 화면을 점검할 때 |
-| [UI 가이드](./docs/ui/README.md) | 버튼, 폼, 모달, 탭 같은 반복 UI 기준을 잡을 때 |
+- [Markup / CSS 가이드](./docs/markup/README.md)  
+  HTML 구조, 클래스 네이밍, CSS 작성 순서, 반응형 기준을 정리했습니다.
+- [웹 접근성 가이드](./docs/accessibility/README.md)  
+  WCAG 2.2와 KWCAG 2.2를 기준으로 화면을 점검하는 문서입니다.
+- [UI 가이드](./docs/ui/README.md)  
+  버튼, 폼, 모달, 탭, 카드처럼 반복되는 UI 패턴을 정리합니다.
 
 ### 코드 품질 / 언어
 
-오래 유지되는 코드를 만들기 위한 기준입니다.
+- [Clean Code 가이드](./docs/clean-code/README.md)  
+  시간이 지나도 다시 읽고 고칠 수 있는 코드를 위한 기준입니다.
+- [TypeScript 가이드](./docs/typescript/README.md)  
+  타입을 많이 쓰기보다, 의도를 안전하게 남기는 방향으로 정리했습니다.
+- [jQuery → Vanilla JS 전환 가이드](./docs/javascript/README.md)  
+  jQuery로 작성하던 선택자, 이벤트, Ajax, DOM 조작을 순수 JavaScript로 옮기는 방법을 정리했습니다.
 
-| 문서 | 볼 때 |
-|---|---|
-| [Clean Code 가이드](./docs/clean-code/README.md) | 네이밍, 함수 분리, 주석, 리팩터링 기준이 필요할 때 |
-| [TypeScript 가이드](./docs/typescript/README.md) | 타입을 안전하게 설계하고 `any`를 줄이고 싶을 때 |
-| [jQuery → Vanilla JS 전환 가이드](./docs/javascript/README.md) | jQuery 코드를 순수 JavaScript로 바꾸고 싶을 때 |
+### 배포 / 도구
+
+- [GitHub Pages 배포 가이드](./docs/deploy/github-pages.md)  
+  저장소 안의 정적 HTML 도구를 GitHub Pages로 실행하는 방법을 정리했습니다.
+- [Code Align 문서](./code-align/README.md)  
+  HTML, CSS, JavaScript 코드를 정리하는 작은 도구의 사용 방법입니다.
 
 ---
 
 ## 처음 보는 사람을 위한 추천 순서
 
-| 지금 상황 | 먼저 볼 문서 |
+처음부터 모든 문서를 읽을 필요는 없습니다. 지금 필요한 것부터 보면 됩니다.
+
+| 지금 필요한 일 | 먼저 볼 문서 |
 |---|---|
-| GitHub 레포를 만들고 로컬 폴더와 연결해야 한다 | [Git 입문 가이드](./docs/git/beginner.md) |
-| Fork 앱에서 Push, Pull, Branch가 헷갈린다 | [Git 가이드 시작하기](./docs/git/README.md) |
-| `fetch first`, `non-fast-forward`, 충돌 오류가 났다 | [Git 문제 해결 가이드](./docs/git/troubleshooting.md) |
+| GitHub에 프로젝트를 처음 올려야 한다 | [Git 입문 가이드](./docs/git/beginner.md) |
+| Fork 앱에서 Push, Pull, Branch가 헷갈린다 | [Git 가이드](./docs/git/README.md) |
+| Push가 거절되거나 충돌이 났다 | [Git 문제 해결 가이드](./docs/git/troubleshooting.md) |
 | README를 보기 좋게 정리하고 싶다 | [Markdown 가이드](./docs/markdown/README.md) |
-| HTML/CSS 컨벤션을 정하고 싶다 | [Markup / CSS 가이드](./docs/markup/README.md) |
-| 접근성 검사 전에 무엇을 봐야 할지 모르겠다 | [웹 접근성 가이드](./docs/accessibility/README.md) |
-| 코드가 점점 길어지고 읽기 어려워진다 | [Clean Code 가이드](./docs/clean-code/README.md) |
-| JavaScript 프로젝트를 TypeScript로 정리하고 싶다 | [TypeScript 가이드](./docs/typescript/README.md) |
-| jQuery 없이 DOM과 이벤트를 처리하고 싶다 | [jQuery → Vanilla JS 전환 가이드](./docs/javascript/README.md) |
+| HTML/CSS 컨벤션을 맞추고 싶다 | [Markup / CSS 가이드](./docs/markup/README.md) |
+| 접근성 기준을 빠르게 확인하고 싶다 | [웹 접근성 가이드](./docs/accessibility/README.md) |
+| jQuery 코드를 순수 JavaScript로 바꾸고 싶다 | [jQuery → Vanilla JS 전환 가이드](./docs/javascript/README.md) |
+| 코드가 길어져서 정리 기준이 필요하다 | [Clean Code 가이드](./docs/clean-code/README.md) |
+| TypeScript 타입 설계가 헷갈린다 | [TypeScript 가이드](./docs/typescript/README.md) |
+| 여러 학습용 레포를 하나로 모으고 싶다 | [레포지토리 통합 가이드](./docs/git/repository-migration.md) |
 
 ---
 
-## Code Align 도구 바로가기
+## Code Align 실행하기
 
-작은 코드 정렬 도구는 이 저장소 안의 `code-align/` 폴더에 두었습니다.
+`code-align`은 이 저장소 안에 들어 있는 정적 HTML 도구입니다.
 
-| 구분 | 링크 |
+| 목적 | 링크 |
 |---|---|
-| GitHub에서 코드 보기 | [code-align/index.html](./code-align/index.html) |
-| GitHub Pages에서 실행 | [코드 정렬 바로가기](https://heodokyung.github.io/frontend-guide/code-align/) |
-| 배포 설정 확인 | [GitHub Pages 배포 가이드](./docs/deploy/github-pages.md) |
+| 웹에서 바로 실행 | [Code Align 실행](https://heodokyung.github.io/frontend-guide/code-align/) |
+| 소스 코드 보기 | [code-align/index.html](./code-align/index.html) |
+| 배포 방식 확인 | [GitHub Pages 배포 가이드](./docs/deploy/github-pages.md) |
 
-GitHub README 안에서 `./code-align/index.html`을 누르면 보통 “소스 파일”이 열립니다. 실제 도구처럼 실행하려면 GitHub Pages 주소를 써야 합니다.
-
-GitHub Pages를 `main` 브랜치의 `/root`로 배포하고 있다면 `code-align/index.html`은 아래 주소로 접근하는 것이 정상입니다.
-
-```txt
-https://heodokyung.github.io/frontend-guide/code-align/
-```
+GitHub README에서 `index.html`을 누르면 웹 도구가 실행되는 것이 아니라 소스 파일이 열립니다.  
+실제 실행 주소는 GitHub Pages 주소를 사용해야 합니다.
 
 ---
 
@@ -129,85 +142,41 @@ https://heodokyung.github.io/frontend-guide/code-align/
 ```txt
 frontend-guide/
 ├─ README.md
-├─ .nojekyll
+├─ code-align/
+│  ├─ README.md
+│  └─ index.html
 ├─ docs/
-│  ├─ git/
-│  │  ├─ README.md
-│  │  ├─ beginner.md
-│  │  ├─ workflow.md
-│  │  └─ troubleshooting.md
-│  ├─ markdown/
-│  │  └─ README.md
-│  ├─ markup/
-│  │  └─ README.md
 │  ├─ accessibility/
-│  │  └─ README.md
 │  ├─ clean-code/
-│  │  └─ README.md
-│  ├─ typescript/
-│  │  └─ README.md
+│  ├─ deploy/
+│  ├─ git/
 │  ├─ javascript/
-│  │  └─ README.md
-│  ├─ ui/
-│  │  └─ README.md
-│  └─ deploy/
-│     └─ github-pages.md
-└─ code-align/
-   ├─ README.md
-   └─ index.html
+│  ├─ markdown/
+│  ├─ markup/
+│  ├─ typescript/
+│  └─ ui/
+└─ .nojekyll
 ```
 
 ---
 
 ## 문서 작성 기준
 
-이 저장소의 문서는 아래 기준을 따릅니다.
+이 저장소의 문서는 아래 기준으로 작성합니다.
 
-| 기준 | 설명 |
-|---|---|
-| 결론부터 쓴다 | 길게 읽기 전에 방향을 잡을 수 있어야 합니다. |
-| 상황으로 나눈다 | “처음 시작”, “실무 적용”, “문제 해결”처럼 실제 사용 장면이 보여야 합니다. |
-| 예시를 넣는다 | 좋은 예와 나쁜 예를 함께 두어야 바로 적용할 수 있습니다. |
-| 위험한 작업은 표시한다 | `reset`, `force push`, `rebase`처럼 이력에 영향을 주는 작업은 조심스럽게 다룹니다. |
-| 내 기준을 숨기지 않는다 | 공개 자료를 참고하되, 최종 문서는 내가 실제로 쓰는 방식으로 정리합니다. |
-
----
-
-## 저작권과 사용 안내
-
-별도 `LICENSE` 파일은 두지 않았습니다.
-
-그래서 이 저장소의 글과 예제는 기본적으로 작성자인 Heo Do Kyung에게 권리가 있습니다. 개인 학습이나 참고는 자유롭게 봐도 되지만, 문서를 그대로 복사해서 다른 공개 자료로 배포하는 것은 권장하지 않습니다.
-
-누구나 재사용해도 되는 공개 가이드로 운영하고 싶다면 나중에 아래 중 하나를 선택하면 됩니다.
-
-| 목적 | 추천 라이선스 |
-|---|---|
-| 문서 공유와 출처 표기를 원한다 | Creative Commons BY 4.0 |
-| 코드까지 자유롭게 재사용하게 하고 싶다 | MIT License |
-| 당장은 개인 포트폴리오 성격을 유지하고 싶다 | 라이선스 없음 |
-
-현재 방향은 세 번째, 즉 “개인 기준 문서이지만 공개적으로 읽을 수 있는 저장소”에 가깝습니다.
+- 처음 보는 사람도 현재 위치를 알 수 있게 목차를 둡니다.
+- 설명은 길게 늘어놓기보다, 실제 상황과 연결합니다.
+- 예시는 복사해서 바로 써볼 수 있게 작성합니다.
+- 오래된 방식은 가능하면 현재 기준에 맞게 정리합니다.
+- 개인적인 기준이더라도, 왜 그렇게 판단했는지 함께 적습니다.
+- 문서가 지나치게 딱딱해지지 않도록 실제 작업자의 말투를 유지합니다.
 
 ---
 
-## 참고한 주요 공개 자료
+## 사용 안내
 
-이 저장소는 아래 자료를 참고하되, 문장을 그대로 옮기지 않고 프론트엔드 실무 기준에 맞게 다시 정리했습니다.
+이 저장소는 제가 작업하면서 정리한 개인 가이드입니다.  
+그대로 정답처럼 따르기보다, 프로젝트 상황에 맞게 조정해서 보는 쪽이 좋습니다.
 
-- Google HTML/CSS Style Guide
-- MDN Web Docs
-- GitHub Docs
-- CommonMark
-- W3C WCAG 2.2
-- 한국형 웹 콘텐츠 접근성 지침 2.2(KWCAG 2.2)
-- TypeScript Handbook
-- Conventional Commits
-- Code Guide by @mdo
-
----
-
-<p align="center">
-  <strong>좋은 가이드는 많은 내용을 담는 문서가 아니라, 다시 열어봤을 때 바로 쓸 수 있는 문서라고 생각합니다.</strong><br>
-  <sub>Written and maintained by Heo Do Kyung.</sub>
-</p>
+문서와 예시는 계속 수정될 수 있습니다.  
+더 나은 기준을 발견하면 기존 문서도 과감하게 고쳐갑니다.
