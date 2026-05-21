@@ -96,17 +96,11 @@ frontend-guide/
 │  │  └─ README.md
 │  ├─ markup/
 │  │  └─ README.md
-│  ├─ css/
-│  │  └─ README.md
 │  ├─ clean-code/
 │  │  └─ README.md
-│  ├─ typescript/
-│  │  └─ README.md
-│  └─ ui/
+│  └─ typescript/
 │     └─ README.md
 ├─ tools/
-├─ assets/
-├─ NOTICE.md
 └─ LICENSE
 ```
 
