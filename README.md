@@ -64,6 +64,7 @@ Git, Markdown, Markup/CSS, 접근성, UI 패턴, 클린 코드, TypeScript, Java
 | Git | 여러 저장소를 하나로 정리하고 싶다 | [레포지토리 통합 가이드](./docs/git/repository-migration.md) |
 | 문서 | README를 보기 좋게 정리하고 싶다 | [Markdown 가이드](./docs/markdown/README.md) |
 | 마크업 | HTML/CSS 컨벤션을 맞추고 싶다 | [Markup / CSS 가이드](./docs/markup/README.md) |
+| CSS | SCSS를 좀 더 잘 이해하고 싶다 | [Markup / CSS 가이드](./docs/scss/README.md) |
 | 접근성 | 접근성 기준을 빠르게 점검하고 싶다 | [웹 접근성 가이드](./docs/accessibility/README.md) |
 | 코드 변환 | jQuery 코드를 순수 JavaScript로 바꾸고 싶다 | [jQuery → Vanilla JS 전환 가이드](./docs/javascript/README.md) |
 | 타입 | TypeScript 타입 설계가 헷갈린다 | [TypeScript 가이드](./docs/typescript/README.md) |
